@@ -42,8 +42,8 @@ public class FlutterUmengplusPlugin implements FlutterPlugin, MethodCallHandler 
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-        final MethodChannel channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_umengplus");
-        channel.setMethodCallHandler(new FlutterUmengplusPlugin(flutterPluginBinding.getApplicationContext()));
+        mChannel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_umengplus");
+        mChannel.setMethodCallHandler(new FlutterUmengplusPlugin(flutterPluginBinding.getApplicationContext()));
     }
 
     // This static function is optional and equivalent to onAttachedToEngine. It supports the old
@@ -56,8 +56,8 @@ public class FlutterUmengplusPlugin implements FlutterPlugin, MethodCallHandler 
     // depending on the user's project. onAttachedToEngine or registerWith must both be defined
     // in the same class.
     public static void registerWith(Registrar registrar) {
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_umengplus");
-        channel.setMethodCallHandler(new FlutterUmengplusPlugin(registrar.activity()));
+        mChannel = new MethodChannel(registrar.messenger(), "flutter_umengplus");
+        mChannel.setMethodCallHandler(new FlutterUmengplusPlugin(registrar.activity()));
     }
 
     @Override
