@@ -20,6 +20,9 @@ import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -181,8 +184,32 @@ public class FlutterUmengplusPlugin implements FlutterPlugin, MethodCallHandler 
         PushAgent mPushAgent = PushAgent.getInstance(ctx);
         mPushAgent.register(new IUmengRegisterCallback() {
             @Override
-            public void onSuccess(String deviceToken) {
+            public void onSuccess(final String deviceToken) {
                 Log.i("umengplus_log", "推送注册成功：deviceToken：-------->  " + deviceToken + " " + (mChannel == null));
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Map<String, String> tokenMap = new HashMap<String,String>();
+                        tokenMap.put("deviceToken", deviceToken);
+                        mChannel.invokeMethod("getDeviceToken", tokenMap, new Result() {
+                            @Override
+                            public void success(Object o) {
+                                 Log.i("umengplus_log", "推送flutter注册消息成功：-------->  " + o.toString());
+                            }
+
+                            @Override
+                            public void error(String s, String s1, Object o) {
+                                Log.i("umengplus_log", "推送flutter注册消息失败：-------->  " + o.toString());
+                            }
+
+                            @Override
+                            public void notImplemented() {
+                                Log.i("umengplus_log", "推送flutter注册消息失败：notImplemented  ");
+                            }
+                        });
+                    }
+                });
             }
 
             @Override
