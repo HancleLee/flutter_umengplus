@@ -230,10 +230,12 @@ public class FlutterUmengplusPlugin implements FlutterPlugin, MethodCallHandler 
             public Notification getNotification(Context context, final UMessage msg) {
                 Log.i("umengplus_log", "收到推送消息 title：-------->  " + msg.title + msg.custom);
                 Handler mainHandler = new Handler(Looper.getMainLooper());
+                final Map<String, String> params =  msg.extra;
+                params.put("alert_title", msg.title);
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mChannel.invokeMethod("getNotification", msg.extra, new Result() {
+                        mChannel.invokeMethod("getNotification", params, new Result() {
                             @Override
                             public void success(Object o) {
                                 Log.i("umengplus_log", "推送flutter消息成功：-------->  " + o.toString());
