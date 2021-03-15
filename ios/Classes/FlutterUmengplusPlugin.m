@@ -1,8 +1,10 @@
 #import "FlutterUmengplusPlugin.h"
-#import <UMAnalytics/MobClick.h>
+#import <UMCommon/MobClick.h>
 #import <UMCommon/UMCommon.h>
+//#import <UMCommon/UMCommonLogHeaders.h>
+//#import <UMCommon/UMErrorCatch.h>
 #import <UMCommonLog/UMCommonLogHeaders.h>
-#import <UMErrorCatch/UMErrorCatch.h>
+//#import <UMErrorCatch/UMErrorCatch.h>
 
 @implementation FlutterUmengplusPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
@@ -37,9 +39,9 @@
   NSString *appKey = call.arguments[@"key"];
   NSString *channel = call.arguments[@"channel"];
   
-  BOOL logEnable = [call.arguments[@"logEnable"] boolValue];
+//  BOOL logEnable = [call.arguments[@"logEnable"] boolValue];
   BOOL encrypt = [call.arguments[@"encrypt"] boolValue];
-  BOOL reportCrash = [call.arguments[@"reportCrash"] boolValue];
+//  BOOL reportCrash = [call.arguments[@"reportCrash"] boolValue];
 
   [UMCommonLogManager setUpUMCommonLogManager];
 
@@ -49,10 +51,11 @@
   NSLog(@"集成测试的deviceID:%@", deviceID);
 
   [UMConfigure initWithAppkey:appKey channel:channel];
+    
 
-  [MobClick setCrashReportEnabled:reportCrash];
+//  [MobClick setCrashReportEnabled:reportCrash];
 
-  [UMErrorCatch initErrorCatch];
+//  [UMErrorCatch initErrorCatch];
   result(nil);
 }
 
